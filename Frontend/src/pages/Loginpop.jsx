@@ -13,6 +13,10 @@ const Loginpop = ({ currState, setCurrState, setShowLogin, setUser, isAdminLogin
     confirm_password: '',
     adminSecret: '' 
   });
+  
+  // Use environment variable with fallback to Render URL
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "https://divyaanjani.onrender.com";
+
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -26,19 +30,22 @@ const Loginpop = ({ currState, setCurrState, setShowLogin, setUser, isAdminLogin
     setIsLoading(true);
     setErrorMessage('');
 
-    if (currState === 'Sign Up') {
-      if (values.password !== values.confirm_password) {
-        setErrorMessage("Passwords do not match!");
-        setIsLoading(false);
-        return;
-      }
+    try {
+      if (currState === 'Sign Up') {
+        if (values.password !== values.confirm_password) {
+          throw new Error("Passwords do not match!");
+        }
 
-      try {
-        const response = await axios.post("https://divyaanjani.onrender.com/api/auth/signup", {
+        const response = await axios.post(`${API_BASE_URL}/api/auth/signup`, {
           name: values.name,
           email: values.email,
           phone: values.phone,
           password: values.password
+        }, {
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json'
+          }
         });
 
         if (response.status === 201) {
@@ -46,17 +53,7 @@ const Loginpop = ({ currState, setCurrState, setShowLogin, setUser, isAdminLogin
           setCurrState('Login');
           setValues({ ...values, name: '', phone: '', password: '', confirm_password: '' });
         }
-      } catch (error) {
-        if (error.response?.status === 400) {
-          toast.error("User already exists");
-        } else {
-          setErrorMessage(error.response?.data?.message || "Something went wrong. Please try again.");
-        }
-      } finally {
-        setIsLoading(false);
-      }
-    } else {
-      try {
+      } else {
         const payload = {
           email: values.email,
           password: values.password
@@ -67,8 +64,14 @@ const Loginpop = ({ currState, setCurrState, setShowLogin, setUser, isAdminLogin
         }
 
         const response = await axios.post(
-          "https://divyaanjani.onrender.com/api/auth/login", 
-          payload
+          `${API_BASE_URL}/api/auth/login`, 
+          payload,
+          {
+            withCredentials: true,
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          }
         );
 
         if (response.status === 200) {
@@ -87,15 +90,17 @@ const Loginpop = ({ currState, setCurrState, setShowLogin, setUser, isAdminLogin
           setShowLogin(false);
           navigate(isAdminLogin ? '/admin/dashboard' : '/');
         }
-      } catch (error) {
-        setErrorMessage(error.response?.data?.message || 
-          (isAdminLogin ? "Admin login failed. Check credentials." : "Invalid email or password."));
-      } finally {
-        setIsLoading(false);
       }
+    } catch (error) {
+      const errorMsg = error.response?.data?.message || 
+                      error.message || 
+                      (isAdminLogin ? "Admin login failed. Check credentials." : "Login failed.");
+      setErrorMessage(errorMsg);
+      toast.error(errorMsg);
+    } finally {
+      setIsLoading(false);
     }
   };
-
   return (
     <div className="fixed inset-0 z-50 bg-black/60 flex justify-center items-center">
       <form onSubmit={handleSubmit} className="w-full max-w-md bg-white text-gray-700 flex flex-col gap-6 px-8 py-8 rounded-xl text-base animate-fadeIn shadow-lg">

@@ -111,7 +111,7 @@ function Home({ searchQuery, setSearchQuery }) {
             className="w-full px-4 py-2 border rounded-md"
           />
           {searchQuery && (
-            <ul className="absolute bg-white w-full border mt-1 rounded shadow z-10">
+            <ul className="absolute bg-white w-[24%] border mt-1 rounded shadow z-10">
               {suggestions.map((p) => (
                 <li
                   key={p.id}
