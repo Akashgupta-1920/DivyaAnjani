@@ -58,7 +58,7 @@ const Add = () => {
       formData.append('image', image);
 
       const response = await axios.post(
-        'http://localhost:5011/api/products',
+        "https://divyaanjani.onrender.com/api/products",
         formData,
         {
           headers: {

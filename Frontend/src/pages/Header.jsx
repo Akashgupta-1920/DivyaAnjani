@@ -62,10 +62,10 @@ const Header = ({ searchQuery, setSearchQuery, products }) => {
   return (
     <header className="bg-[#ffffff] text-white relative">
       {/* Top Nav */}
-      <div className="container mx-auto px-4 py-4">
+      <div className="container mx-auto px-0 py-2">
         {/* Mobile Layout */}
         <div className="flex items-center justify-between md:hidden">
-          <button className="text-[#69974a] text-2xl" onClick={handleToggleMenu}>
+          <button className="text-[#69974a] text-xl" onClick={handleToggleMenu}>
             <FaBars />
           </button>
 
@@ -104,7 +104,7 @@ const Header = ({ searchQuery, setSearchQuery, products }) => {
         <Link
           to="/account"
           onClick={() => setIsOpen(false)}
-          className="block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100"
+          className="block px-4 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100"
         >
           My Account
         </Link>
@@ -113,7 +113,7 @@ const Header = ({ searchQuery, setSearchQuery, products }) => {
           <Link
             to="/admin/dashboard"
             onClick={() => setIsOpen(false)}
-            className="block px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100"
+            className="block px-4 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100"
           >
             Admin Dashboard
           </Link>
@@ -124,7 +124,7 @@ const Header = ({ searchQuery, setSearchQuery, products }) => {
             setIsOpen(false);
             handleLogout();
           }}
-          className="mt-2 w-full text-left px-3 py-2 rounded-md text-sm font-medium text-red-600 hover:bg-red-50"
+          className="mt-2 w-full text-left px-4 py-2 rounded-md text-sm font-medium text-red-600 hover:bg-red-50"
         >
           Logout
         </button>
@@ -142,7 +142,7 @@ const Header = ({ searchQuery, setSearchQuery, products }) => {
           Account Login
         </button>
         <button
-          className="w-full flex items-center justify-center bg-[#69974a] text-white font-semibold rounded-full px-6 py-2"
+          className="w-full flex items-center justify-center bg-[#69974a] text-white font-semibold rounded-full px-4 py-1"
           onClick={() => {
             setIsOpen(false);
             setShowAdminLogin(true);
@@ -157,7 +157,7 @@ const Header = ({ searchQuery, setSearchQuery, products }) => {
 )}
 
         {/* Desktop Layout */}
-        <div className="hidden md:flex items-center justify-between">
+        <div className="hidden md:flex items-center justify-between gap-2">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
             <img src={logo} alt="Suwasthi Logo" className="h-24" />

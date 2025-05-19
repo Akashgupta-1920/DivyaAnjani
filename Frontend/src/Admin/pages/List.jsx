@@ -9,7 +9,7 @@ const List = () => {
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      const res = await axios.get('http://localhost:5011/api/products');
+      const res = await axios.get('https://divyaanjani.onrender.com/api/products');
       if (res.data.success) {
         setProducts(res.data.data);
       }

@@ -170,7 +170,7 @@ function Home({ searchQuery, setSearchQuery }) {
 
       {/* Trust Section */}
       <section className="py-10 px-auto sm:px-6 bg-gray-100">
-<div className="max-w-sm sm:max-w-2xl md:max-w-4xl lg:max-w-7xl mx-auto text-center">
+<div className="max-w-sm sm:max-w-2xl md:max-w-4xl lg:max-w-6xl mx-auto text-center">
   <h2 className="text-xl sm:text-3xl font-bold mb-6 sm:mb-12">Why People Trust Us</h2>
   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
     {trustData.map((item, index) => (

@@ -34,7 +34,7 @@ const Loginpop = ({ currState, setCurrState, setShowLogin, setUser, isAdminLogin
       }
 
       try {
-        const response = await axios.post("http://localhost:5011/api/auth/signup", {
+        const response = await axios.post("https://divyaanjani.onrender.com/api/auth/signup", {
           name: values.name,
           email: values.email,
           phone: values.phone,
@@ -67,7 +67,7 @@ const Loginpop = ({ currState, setCurrState, setShowLogin, setUser, isAdminLogin
         }
 
         const response = await axios.post(
-          "http://localhost:5011/api/auth/login", 
+          "https://divyaanjani.onrender.com/api/auth/login", 
           payload
         );
 

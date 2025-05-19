@@ -21,6 +21,46 @@ import Add from './Admin/pages/Add';
 import Order from './Admin/pages/Order';
 import List from './Admin/pages/List';
 
+// Mock product data
+const mockProducts = [
+  {
+    id: 1,
+    name: "Product 1",
+    description: "This is product 1 description",
+    price: 99.99,
+    image: "https://via.placeholder.com/300",
+    category: "Category A",
+    stock: 10
+  },
+  {
+    id: 2,
+    name: "Product 2",
+    description: "This is product 2 description",
+    price: 149.99,
+    image: "https://via.placeholder.com/300",
+    category: "Category B",
+    stock: 5
+  },
+  {
+    id: 3,
+    name: "Product 3",
+    description: "This is product 3 description",
+    price: 199.99,
+    image: "https://via.placeholder.com/300",
+    category: "Category A",
+    stock: 8
+  },
+  {
+    id: 4,
+    name: "Product 4",
+    description: "This is product 4 description",
+    price: 299.99,
+    image: "https://via.placeholder.com/300",
+    category: "Category C",
+    stock: 3
+  }
+];
+
 function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [products, setProducts] = useState([]);
@@ -29,7 +69,9 @@ function App() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
+    // Using mock data instead of API call
     fetchProducts();
+    
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       setUser(JSON.parse(storedUser));
@@ -38,12 +80,14 @@ function App() {
 
   const fetchProducts = async () => {
     try {
-      const res = await fetch('/api/products');
-      if (!res.ok) throw new Error(`Failed to fetch: ${res.status}`);
-      const data = await res.json();
-      setProducts(data);
+      // Replace API call with mock data
+      // Simulating async behavior
+      setTimeout(() => {
+        setProducts(mockProducts);
+        console.log('Products loaded from mock data');
+      }, 300);
     } catch (error) {
-      console.error('Error fetching products:', error.message);
+      console.error('Error loading products:', error.message);
     }
   };
 
@@ -52,7 +96,7 @@ function App() {
       <Router>
         <div className="flex flex-col min-h-screen">
           <ToastContainer position="top-right" autoClose={3000} />
-
+          
           {showLogin && (
             <Loginpop
               setShowLogin={setShowLogin}
@@ -61,7 +105,7 @@ function App() {
               setUser={setUser}
             />
           )}
-
+          
           <Header
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
@@ -71,7 +115,7 @@ function App() {
             user={user}
             setUser={setUser}
           />
-
+          
           <main className="flex-grow">
             <Routes>
               {/* Public routes */}
@@ -79,23 +123,23 @@ function App() {
               <Route path="/research" element={<Research />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/products" element={<Products searchQuery={searchQuery} setSearchQuery={setSearchQuery} products={products} />} />
-              <Route path="/product/:productId" element={<ProductDetail />} />
+              <Route path="/product/:productId" element={<ProductDetail products={products} />} />
               <Route path="/cart" element={<CartPage />} />
               <Route path="/order" element={<PlaceOrder />} />
-
+              
               {/* Admin section with nested routes */}
               <Route path="/admin/dashboard" element={<AdminLayout user={user} />}>
                 <Route index element={<Navigate to="list" replace />} />
                 <Route path="add" element={<Add />} />
                 <Route path="orders" element={<Order />} />
-                <Route path="list" element={<List />} />
+                <Route path="list" element={<List products={products} setProducts={setProducts} />} />
               </Route>
-
+              
               {/* Fallback route */}
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </main>
-
+          
           <Footer />
         </div>
       </Router>
